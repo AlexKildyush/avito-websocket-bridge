@@ -1,0 +1,134 @@
+<!doctype html>
+<html lang="ru">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Avito WebSocket Bridge</title>
+    <style>
+      :root {
+        --bg: #f3efe7;
+        --surface: rgba(255, 255, 255, 0.78);
+        --text: #1b1a17;
+        --muted: #5f5a4f;
+        --accent: #0d9488;
+        --accent-soft: #ccfbf1;
+        --danger: #b91c1c;
+        --border: rgba(27, 26, 23, 0.08);
+      }
+
+      * {
+        box-sizing: border-box;
+      }
+
+      body {
+        margin: 0;
+        min-height: 100vh;
+        font-family: "Segoe UI", sans-serif;
+        color: var(--text);
+        background:
+          radial-gradient(circle at top left, #fff7ed 0%, transparent 35%),
+          radial-gradient(circle at right, #ccfbf1 0%, transparent 25%),
+          linear-gradient(135deg, #f3efe7, #e7f4f1);
+      }
+
+      .page {
+        width: min(920px, calc(100vw - 32px));
+        margin: 32px auto;
+        display: grid;
+        gap: 20px;
+      }
+
+      .card {
+        background: var(--surface);
+        backdrop-filter: blur(12px);
+        border: 1px solid var(--border);
+        border-radius: 24px;
+        padding: 24px;
+        box-shadow: 0 20px 50px rgba(27, 26, 23, 0.08);
+      }
+
+      h1 {
+        margin: 0 0 8px;
+        font-size: clamp(2rem, 3vw, 3rem);
+      }
+
+      .subtitle {
+        margin: 0;
+        color: var(--muted);
+      }
+
+      .status {
+        display: inline-flex;
+        align-items: center;
+        gap: 10px;
+        padding: 10px 14px;
+        border-radius: 999px;
+        background: var(--accent-soft);
+        font-weight: 600;
+      }
+
+      .status.error,
+      .status.stopped,
+      .status.needs-auth {
+        background: #fee2e2;
+        color: var(--danger);
+      }
+
+      .messages {
+        display: grid;
+        gap: 12px;
+      }
+
+      .message {
+        padding: 16px;
+        border-radius: 18px;
+        border: 1px solid var(--border);
+        background: rgba(255, 255, 255, 0.85);
+      }
+
+      .meta {
+        display: flex;
+        justify-content: space-between;
+        gap: 12px;
+        font-size: 0.92rem;
+        color: var(--muted);
+        margin-bottom: 8px;
+      }
+
+      .empty {
+        color: var(--muted);
+        text-align: center;
+        padding: 24px 12px;
+      }
+
+      code {
+        font-family: "Cascadia Code", monospace;
+      }
+    </style>
+  </head>
+  <body>
+    <main class="page">
+      <section class="card">
+        <h1>Avito Message Bridge</h1>
+        <p class="subtitle">
+          В реальном времени показывает новые сообщения из чата Авито с контактом
+          <code>Рушан</code>.
+        </p>
+      </section>
+
+      <section class="card">
+        <div id="status" class="status">Подключение...</div>
+        <p id="status-detail" class="subtitle"></p>
+      </section>
+
+      <section class="card">
+        <div id="messages" class="messages">
+          <div class="empty">Сообщения пока не поступали.</div>
+        </div>
+      </section>
+    </main>
+
+    <script src="/socket.io/socket.io.js"></script>
+    <script src="/app.js"></script>
+  </body>
+  </html>
